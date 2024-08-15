@@ -153,8 +153,8 @@ $colors: #f38181, #FCE38A, #E23E57, #95e1d3b2, #FFC4D0, #00DFFC;
 
   @each $c in $colors {
     $i: index($colors, $c);
-    $s: ( $anim-speed / $i * length($colors));
-    $d: (-$anim-speed / $i * length($colors) * 0.66);
+    $s: calc($anim-speed / $i)*length($colors);
+    $d: calc($anim-speed / $i)* length($colors) * 0.66;
 
     &--#{$i} {
       stroke: $c;
