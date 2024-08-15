@@ -1,0 +1,197 @@
+$dash-array: 260;
+$stroke-width: 10;
+$anim-speed: 1000ms;
+$dark-theme: #1D1E22;
+$light-theme: #fcfbfb;
+$colors: #f38181, #FCE38A, #E23E57, #95e1d3b2, #FFC4D0, #00DFFC;
+
+.logo-container {
+  z-index: 0;
+  opacity: 0;
+  width: 100vh;
+  height: 50vh;
+  position: absolute;
+  top:0;
+  right:0;
+  bottom: 0;
+  left: auto;
+  margin: auto;
+  animation: bounceIn;
+  animation-duration: 1s;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
+}
+
+.visually-hidden {
+  position: absolute;
+  clip: rect(0 0 0 0); 
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  border: 0; 
+  overflow: hidden;
+}
+
+.page-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  // background-color: $light-theme;
+  transition: background-color 200ms;
+}
+
+// .checkbox {
+//   $pos: 22px;
+
+//   &.theme-toggle__checkbox:checked + label:after {
+//     transform: translateX($pos);
+//   }
+  
+//   &.outline-toggle__checkbox:checked + label:after {
+//     transform: translateX($pos);
+//   }
+// }
+
+// .theme-toggle__checkbox:checked {
+//   & ~ label {
+//     color: lighten($dark-theme, 20%);
+    
+//     &:before {
+//       background-color: lighten($dark-theme, 5%);
+//     }
+    
+//     &:before,
+//     &:after {
+//       border-color: lighten($dark-theme, 20%);
+//     }
+//   }
+  
+//   & ~ main {
+//     background-color: $dark-theme;
+    
+//     .infinity__outline {
+//       stroke: darken($dark-theme, 5%);
+//     }
+//   }
+// }
+
+// // Outline control
+// .outline-toggle__checkbox:checked {
+//   & ~ main .infinity__outline {
+//     opacity: 0;
+//   }
+// }
+
+// // Theme toggle button
+// .label {
+//   position: absolute;
+//   left: 1rem;
+//   padding: 8px 0 0 60px;
+//   font-family: "Helvetica", sans-serif;
+//   font-size: 0.85rem;
+//   color: lighten($dark-theme, 30%);
+//   -webkit-tap-highlight-color: rgba(0,0,0,0);
+//   cursor: pointer;
+//   user-select: none;
+//   transition: color 200ms;
+  
+//   &.theme-toggle__label   { top: 1rem; }
+//   &.outline-toggle__label { top: 3.5rem; }
+  
+//   &:before,
+//   &:after {
+//     content: '';
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     width: 50px;
+//     height: 28px;
+//     background-color: darken($light-theme, 2%); 
+//     border: 1px solid darken($light-theme, 15%);
+//     border-radius: 360px;
+//     transition: 
+//       background-color 200ms,
+//       transform 200ms;
+//   }
+  
+//   &:after {
+//     top: 2px;
+//     left: 2px;
+//     width: 24px;
+//     height: 24px;
+//     background-color: $light-theme;
+//     box-shadow: rgba(black, 0.1) 1px 1px 4px;
+//   }
+// }
+
+
+// Infinity elements
+.infinity {
+  position: absolute;
+  width: 100%;
+  max-width: 800px;
+  
+  path {
+    fill: none;
+    stroke-width: $stroke-width;
+    transform-origin: 50% 50%;
+  }
+}
+
+.infinity__outline {
+  stroke: darken($light-theme, 5%);
+  animation: hover $anim-speed * 4 linear infinite;
+  transition: opacity 600ms;
+}
+
+.infinity__tracer {
+  stroke-linecap: round; 
+  opacity: 0.8;
+  animation: tracer $anim-speed linear reverse infinite;
+
+  @each $c in $colors {
+    $i: index($colors, $c);
+    $s: ( $anim-speed / $i * length($colors));
+    $d: (-$anim-speed / $i * length($colors) * 0.66);
+
+    &--#{$i} {
+      stroke: $c;
+      animation-duration: $s;
+      animation-delay: $d;
+    }
+  }
+}
+
+// Animations
+@keyframes tracer {
+  0% {
+    stroke-dasharray: 0, $dash-array;
+    stroke-dashoffset: -$dash-array * 0.9;
+  }
+  25% {
+    transform: translate(-2px, 2px);
+  }
+  50% {
+    stroke-dasharray: calc($dash-array / 6), $dash-array;
+    stroke-dashoffset: -$dash-array * 0.3;
+  }
+  65% { 
+    transform: translateX(2px, -2px);
+  }
+  100% {
+    stroke-dasharray: 4, $dash-array;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes hover {
+  50% { transform: translateY(2px) scale(1.02); }
+}
+
+@media (max-width: 1201px) {
+  .logo-container {
+     display: none;
+  }
+}
